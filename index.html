@@ -110,6 +110,7 @@ body:not(.starry) #sitSky{display:none}
   <div class="row"><span>Bell every</span><select id="ev"><option value="0">Off</option><option value="10">10 min</option><option value="15">15 min</option><option value="20">20 min</option><option value="30">30 min</option></select></div>
   <div class="row"><span>Ring until I stop</span><input type="checkbox" id="rep"></div>
   <div class="row"><span>Keep screen on</span><input type="checkbox" id="awake"></div>
+  <div class="row"><span>Run Shortcuts from the app</span><input type="checkbox" id="useSc"></div>
  </div>
  <div class="sec2">Phone focus</div>
  <div class="box"><div class="row"><span>Shortcut name</span><input type="text" id="sc"></div><div class="row"><span>Turn-off shortcut</span><input type="text" id="sc2"></div></div>
@@ -198,7 +199,7 @@ seal.addEventListener('contextmenu',e=>e.preventDefault());
 /* sitting */
 const el=a=>a.base+(a.paused?0:Date.now()-a.at);
 function startSit(){const total=S.min*6e4;S.active={total,base:0,at:Date.now(),paused:false,half:0,ti:0};save();fire('begin');wake();showSit();
- const ios=/iPhone|iPad|iPod/.test(navigator.userAgent);if(ios&&S.sc){location.href='shortcuts://run-shortcut?name='+encodeURIComponent(S.sc)}}
+ const ios=/iPhone|iPad|iPod/.test(navigator.userAgent);if(ios&&S.sc&&S.useSc){location.href='shortcuts://run-shortcut?name='+encodeURIComponent(S.sc)}}
 function showSit(){$('sit').hidden=false;document.body.style.overflow='hidden';render()}
 function hideSit(){$('sit').hidden=true;document.body.style.overflow='';keepAlive(false)}
 $('pause').onclick=()=>{const a=S.active;if(!a)return;if(!a.paused){a.base=el(a);a.paused=true;unwake()}else{a.at=Date.now();a.paused=false;wake()}save();render()};
@@ -229,8 +230,8 @@ function sky(svg,col,lin){const W=400,H=800;let r=11;const rnd=()=>(r=(r*9301+49
 function celestial(svg,col){const W=400,H=800;let r=23;const rnd=()=>(r=(r*9301+49297)%233280)/233280;let s='';for(let i=0;i<70;i++){const x=rnd()*W,y=rnd()*H,z=rnd()*1.6+.4;s+=`<circle cx='${x.toFixed(1)}' cy='${y.toFixed(1)}' r='${z.toFixed(2)}' style='fill:${col}' class='tw' opacity='${(.4+rnd()*.6).toFixed(2)}'/>`}for(let i=0;i<4;i++){const x=rnd()*W*.8,y=rnd()*H*.5,dl=(i*2.7+rnd()*3).toFixed(1);s+=`<line class='shoot' x1='${x.toFixed(1)}' y1='${y.toFixed(1)}' x2='${(x+90).toFixed(1)}' y2='${(y+90).toFixed(1)}' style='stroke:${col};animation-delay:${dl}s'/>`}svg.innerHTML=s}
 celestial($('sitSky'),'#f3eee2');
 function build14(){const box=$('d14');box.innerHTML='';const t=new Date();let c=0;for(let i=13;i>=0;i--){const d=new Date(t);d.setDate(t.getDate()-i);const k=dk(d),on=!!rec(k).s;if(on)c++;const b=document.createElement('button');b.className=(on?'s ':'')+(i===0?'t ':'')+(!planned(d)?'r':'');b.innerHTML='<span>'+DN[wd(d)][0]+'</span><i></i>';b.setAttribute('aria-label',DN[wd(d)]+' '+d.getDate()+(on?', sat':', not sat'));b.onclick=()=>{const r=rec(k);if(r.s)delete r.s;else r.s=1;S.days[k]=r;save();home()};box.appendChild(b)}$('d14c').textContent=c+' of the last 14 days · tap a day to correct it'}
-function offFocus(){const ios=/iPhone|iPad|iPod/.test(navigator.userAgent);if(!ios)return;if(Date.now()-(offFocus.t||0)<6000)return;offFocus.t=Date.now();const n=(S.sc2||'Meditate Off').trim();if(n)location.href='shortcuts://run-shortcut?name='+encodeURIComponent(n)}
-$('fOff').onclick=offFocus;
+function offFocus(f){const ios=/iPhone|iPad|iPod/.test(navigator.userAgent);if(!ios||(!S.useSc&&f!==true))return;if(Date.now()-(offFocus.t||0)<6000)return;offFocus.t=Date.now();const n=(S.sc2||'Meditate Off').trim();if(n)location.href='shortcuts://run-shortcut?name='+encodeURIComponent(n)}
+$('fOff').onclick=()=>offFocus(true);
 $('sc2').value=S.sc2||'Meditate Off';$('sc2').onchange=e=>{S.sc2=e.target.value.trim()||'Meditate Off';save()};
 function buildStars(){const box=$('d14');box.className='d14 w';box.innerHTML='';const t=new Date(),tk=dk(t),m0=new Date(t);m0.setDate(t.getDate()-wd(t));
  for(let i=0;i<7;i++){const d=new Date(m0);d.setDate(m0.getDate()+i);const k=dk(d),on=!!rec(k).s,fut=d>t&&k!==tk;const b=document.createElement('button');b.className=(on?'s ':'')+(k===tk?'t ':'')+(fut?'f':'');b.innerHTML='<span>'+DN[i][0]+'</span><svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>';b.setAttribute('aria-label',DN[i]+' '+d.getDate()+(on?', sat':', not sat'));if(fut)b.disabled=true;else b.onclick=()=>{const r=rec(k);if(r.s)delete r.s;else r.s=1;S.days[k]=r;save();home()};box.appendChild(b)}
@@ -242,6 +243,7 @@ function buildWeek(){const box=$('d14');box.className='seg7';box.innerHTML='';co
  $('d14c').textContent=wk+' of '+pl+' days this week \u00b7 '+mo+' this month'}
 let ka=null;function keepAlive(on){try{if(on){if(!ka){const sr=8000,n=sr,b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,s)=>[...s].forEach((c,i)=>v.setUint8(o+i,c.charCodeAt(0)));w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVEfmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);ka=new Audio(URL.createObjectURL(new Blob([b],{type:'audio/wav'})));ka.loop=true;ka.volume=.02}ka.play().catch(()=>{})}else if(ka)ka.pause()}catch(e){}}
 $('awake').checked=!!S.awake;$('awake').onchange=e=>{S.awake=e.target.checked;save()};
+$('useSc').checked=!!S.useSc;$('useSc').onchange=e=>{S.useSc=e.target.checked;save()};
 /* boot */
 home();
 if(S.active){if(!S.active.paused&&el(S.active)>=S.active.total)complete();else{showSit();wake()}}

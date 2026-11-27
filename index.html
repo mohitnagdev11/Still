@@ -55,6 +55,10 @@ body.starry{background:#0a0e1f}#field{position:fixed;inset:0;z-index:0;display:n
 .d14{display:grid;grid-template-columns:repeat(14,1fr);gap:2px;width:100%;margin-top:18px}.d14 button{border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:var(--mu);font:400 9px system-ui,sans-serif}.d14 i{width:17px;height:17px;border-radius:50%;border:1.5px solid var(--ln);display:block}.d14 button.s i{background:var(--ac);border-color:var(--ac)}.d14 button.t i{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--ac)}.d14 button.r i{border-style:dashed;opacity:.5}.cap{font:400 12px system-ui,sans-serif;color:var(--mu);margin-top:8px}
 .d14.w{grid-template-columns:repeat(7,1fr);gap:4px;max-width:320px}.d14.w button{font-size:10px;gap:6px;letter-spacing:1px}.d14.w button svg{width:30px;height:30px;fill:none;stroke:var(--ln);stroke-width:1.4;stroke-linejoin:round}.d14.w button.s svg{fill:var(--ac);stroke:var(--ac);filter:drop-shadow(0 0 5px var(--ac))}.d14.w button.t svg{stroke:var(--ink)}.d14.w button.s.t svg{stroke:var(--ac)}.d14.w button.f{opacity:.3;cursor:default}
 .seg7{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;width:100%;max-width:300px;margin-top:18px}.seg7 i{height:6px;border-radius:3px;background:var(--ln);display:block}.seg7 i.s{background:var(--ac)}.seg7 i.t{box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--ac)}.seg7 i.r{opacity:.4}
+.g28{display:grid;grid-template-columns:repeat(7,32px) 1fr;gap:6px;width:100%;max-width:340px;margin-top:18px;align-items:center}.g28 .h{font:400 10px system-ui,sans-serif;color:var(--mu);text-align:center;letter-spacing:1px}.g28 button{width:32px;height:32px;border-radius:9px;border:1.5px solid var(--ln);background:none;color:var(--mu);font:400 12px system-ui,sans-serif;cursor:pointer;padding:0}.g28 button.s{background:var(--ac);border-color:var(--ac);color:var(--on);font-weight:700}.g28 button.t{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--ac)}.g28 button.r{border-style:dashed}.g28 button.f{opacity:.3;cursor:default}.g28 .wb{position:relative;height:16px;margin-left:4px;background:var(--ln);border-radius:8px;overflow:hidden}.g28 .wb span{position:absolute;left:0;top:0;bottom:0;background:var(--ac);border-radius:8px;opacity:.85}.g28 .wb em{position:relative;font:400 10px system-ui,sans-serif;font-style:normal;color:var(--ink);padding-left:7px;line-height:16px}
+.lvl{width:100%;margin-top:14px;padding:12px 14px;border:1px solid var(--ln);background:var(--card);border-radius:8px;text-align:left}.lvl .lh{display:flex;justify-content:space-between;align-items:baseline}.lvl .lh b{font:400 20px Georgia,serif;color:var(--ac)}.lvl .lh span{font:400 13px system-ui,sans-serif;color:var(--mu)}.lvl .lb{height:6px;background:var(--ln);border-radius:3px;margin:8px 0 6px;overflow:hidden}.lvl .lb i{display:block;height:100%;background:var(--ac);border-radius:3px}.lvl .lt{font:400 12px/1.5 system-ui,sans-serif;color:var(--mu)}
+.st3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;margin-top:16px}.st3 div{text-align:center}.st3 b{display:block;font:400 26px Georgia,serif;color:var(--ink)}.st3 span{font:400 11px system-ui,sans-serif;letter-spacing:1.2px;text-transform:uppercase;color:var(--mu)}.lk{border:0;background:none;color:var(--ac);font:400 13px system-ui,sans-serif;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:6px 0}.dr{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-top:1px solid var(--ln);font:400 16px Georgia,serif;cursor:pointer}.dr:first-child{border-top:0}
+#sit .enc{font:italic 19px/1.5 Georgia,serif;color:#f3eee2;max-width:300px;min-height:58px;opacity:.92}
 .starfield{width:100%;height:100%;background-image:none!important}
 body:not(.starry) #sitSky{display:none}
 .tw{animation:tw 4s ease-in-out infinite alternate}
@@ -74,6 +78,7 @@ body:not(.starry) #sitSky{display:none}
 
  <div class="streakbox"><b id="streakN">0</b><span id="streakT">days in a row · start today</span></div>
 
+ <div class="lvl" id="lvl"></div>
  <p class="word" id="line"></p>
 
  <div class="seal" id="seal">
@@ -111,14 +116,18 @@ body:not(.starry) #sitSky{display:none}
   <div class="row"><span>Ring until I stop</span><input type="checkbox" id="rep"></div>
   <div class="row"><span>Keep screen on</span><input type="checkbox" id="awake"></div>
   <div class="row"><span>Run Shortcuts from the app</span><input type="checkbox" id="useSc"></div>
+  <div class="row"><span>PIN for editing days</span><button class="btn" id="chgPin">Set / change</button></div>
  </div>
  <div class="sec2">Phone focus</div>
  <div class="box"><div class="row"><span>Shortcut name</span><input type="text" id="sc"></div><div class="row"><span>Turn-off shortcut</span><input type="text" id="sc2"></div></div>
  <p class="foot" style="margin:0">A web page can’t switch focus by itself. On iPhone, create a Shortcut with “Set Focus” named exactly as above. Starting a sit then opens it.</p>
 </div></div>
 
+<div class="bd" id="mDays" hidden><div class="sheet"><h2>Edit days <button class="x" data-close>Close</button></h2><p class="foot" style="margin:0 0 8px">Switch on the days you sat. Your streak and points update automatically.</p><div class="box" id="dl" style="padding:0 14px"></div></div></div>
+<div class="bd" id="mPin" hidden><div class="sheet" style="text-align:center"><h2 style="justify-content:center" id="pinT">Enter PIN</h2><p class="foot" id="pinP" style="margin:0 0 12px"></p><input id="pinIn" type="password" inputmode="numeric" maxlength="4" autocomplete="off" style="width:150px;max-width:none;text-align:center;font-size:26px;letter-spacing:10px"><p class="foot" id="pinE" style="color:#b5473d;min-height:18px;margin:8px 0"></p><button class="btn" id="pinOk">Continue</button> <button class="btn" data-close>Cancel</button></div></div>
 <div id="sit" hidden><svg class="starfield" id="sitSky" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice"></svg>
  <div class="lbl" id="sitLbl">Sitting</div>
+ <div class="enc" id="enc"></div>
  <div class="clock" id="clock"></div>
  <div class="wrap"><button id="pause">Pause</button><button id="end">End</button></div>
 </div>
@@ -180,13 +189,13 @@ function buildProgress(){const t=new Date(),y=t.getFullYear(),m=t.getMonth(),fir
 function buildRibbon(){const svg=$('rib'),t=new Date(),tk=dk(t),off=wd(t),start=new Date(t);start.setDate(t.getDate()-off-49);let s='',pts=[];for(let w=0;w<8;w++){const x=6+w*31;let c=0;for(let j=0;j<7;j++){const dt=new Date(start);dt.setDate(start.getDate()+w*7+j);const k=dk(dt),fut=dt>t&&k!==tk,on=!!rec(k).s;if(on)c++;const y=44+j*10;s+=`<rect x='${x}' y='${y}' width='22' height='8' rx='3' style='fill:${on?'var(--ac)':'var(--ln)'}' opacity='${fut?.35:1}'/>`;if(k===tk)s+=`<rect x='${x-1.5}' y='${y-1.5}' width='25' height='11' rx='4' style='fill:none;stroke:var(--ink)' stroke-width='1.2'/>`}pts.push([x+11,22-(c/7)*16])}s+=`<polyline points='${pts.map(p=>p.join(',')).join(' ')}' style='fill:none;stroke:var(--ac)' stroke-width='2' stroke-linejoin='round'/>`;s+=pts.map(p=>`<circle cx='${p[0]}' cy='${p[1]}' r='2.5' style='fill:var(--ac)'/>`).join('');svg.innerHTML=s}
 /* home */
 function home(){const n=new Date(),k=dk(),st=tm(S.start),end=(st+S.min)%1440,mins=n.getHours()*60+n.getMinutes(),t=rec(k),r=streak();
- $('line').textContent=LINES[(n.getFullYear()*400+n.getMonth()*31+n.getDate())%LINES.length];
+ {const MSG={1:'The first day is the hardest. You did it.',3:'Three days. The habit is stirring.',7:'Seven days in a row. This is no accident.',14:'Two weeks. You are becoming a person who sits.',21:'Twenty-one days. The practice is taking root.',40:'Forty days. Steady, quiet, unshakable.',100:'One hundred days. Look how far you have come.'};const rr=streak();$('line').textContent=(MSG[rr]&&rec(dk()).s)?MSG[rr]:LINES[(n.getFullYear()*400+n.getMonth()*31+n.getDate())%LINES.length]}
  $('streakN').textContent=r;$('streakT').textContent=r?(r===1?'day in a row':'days in a row')+(t.s?' · sat today':''):'days in a row · begin today';
  $('big').textContent=t.s?'Done':S.start;
  $('small').textContent=t.s?'today':'until '+pad(Math.floor(end/60))+':'+pad(end%60);
  let h;if(t.s)h='Sat today. Sit again any time.';else if(!planned(n))h='A rest day. Hold to sit anyway.';else if(mins<st)h='Hold to sit early.';else if(mins<st+S.min)h='Hold for two seconds to begin.';else h='The window has passed. A late sit still counts.';
  $('hint').textContent=h;
- $('arc').style.strokeDashoffset=t.s?0:C;buildWeek()}
+ $('arc').style.strokeDashoffset=t.s?0:C;buildStats();renderLvl()}
 setInterval(()=>{if(!S.active)home()},30000);
 
 /* hold to start */
@@ -198,15 +207,15 @@ seal.addEventListener('contextmenu',e=>e.preventDefault());
 
 /* sitting */
 const el=a=>a.base+(a.paused?0:Date.now()-a.at);
-function startSit(){const total=S.min*6e4;S.active={total,base:0,at:Date.now(),paused:false,half:0,ti:0};save();fire('begin');wake();showSit();
+function startSit(){const total=S.min*6e4;S.active={total,base:0,at:Date.now(),paused:false,half:0,ti:0,ot:Math.abs(new Date().getHours()*60+new Date().getMinutes()-tm(S.start))<=30};save();fire('begin');wake();showSit();
  const ios=/iPhone|iPad|iPod/.test(navigator.userAgent);if(ios&&S.sc&&S.useSc){location.href='shortcuts://run-shortcut?name='+encodeURIComponent(S.sc)}}
 function showSit(){$('sit').hidden=false;document.body.style.overflow='hidden';render()}
 function hideSit(){$('sit').hidden=true;document.body.style.overflow='';keepAlive(false)}
 $('pause').onclick=()=>{const a=S.active;if(!a)return;if(!a.paused){a.base=el(a);a.paused=true;unwake()}else{a.at=Date.now();a.paused=false;wake()}save();render()};
 let eT;$('end').onclick=()=>{const b=$('end');if(b.dataset.s){clearTimeout(eT);b.dataset.s='';b.textContent='End';const a=S.active;if(el(a)>=a.total*.85){complete();offFocus()}else{S.active=null;unwake();save();hideSit();home();offFocus()}}else{b.dataset.s='1';b.textContent='Tap again';eT=setTimeout(()=>{b.dataset.s='';b.textContent='End'},3000)}};
-let al;function complete(){S.active=null;unwake();const k=dk(),r=rec(k);r.s=1;S.days[k]=r;save();hideSit();home();$('dmsg').textContent=streak()+' day'+(streak()===1?'':'s')+' in a row.';show('mDone',1);fire('end');setTimeout(offFocus,600);if(S.rep){clearInterval(al);al=setInterval(()=>fire('end'),7000)}}
+let al;function complete(){const wasOt=S.active&&S.active.ot;S.active=null;unwake();const k=dk(),r=rec(k),p0=points();r.s=1;if(wasOt)r.ot=1;S.days[k]=r;save();hideSit();home();const p1=points();$('dmsg').textContent='+'+(p1.total-p0.total)+' points \u00b7 '+p1.lv.name+(p1.lvi>p0.lvi?' \u00b7 new level reached!':'')+' \u00b7 '+streak()+' day'+(streak()===1?'':'s')+' in a row. '+(wasOt?'Early start bonus included. ':'')+COMP[Math.floor(Math.random()*COMP.length)];show('mDone',1);fire('end');setTimeout(offFocus,600);if(S.rep){clearInterval(al);al=setInterval(()=>fire('end'),7000)}}
 $('mDone').addEventListener('click',e=>{if(e.target.closest('[data-close]')||e.target===$('mDone')){clearInterval(al);$('mDone').hidden=true}});
-function render(){const a=S.active;if(!a)return;const e=el(a);$('clock').textContent=a.paused?'Paused':clk(a.total-e);$('pause').textContent=a.paused?'Resume':'Pause';$('sitLbl').textContent=a.paused?'Paused':(e<a.total/2?'Sitting':'Halfway')}
+function render(){const a=S.active;if(!a)return;const e=el(a);$('clock').textContent=a.paused?'Paused':clk(a.total-e);$('pause').textContent=a.paused?'Resume':'Pause';$('sitLbl').textContent=a.paused?'Paused':(e<a.total/2?'Sitting':'Halfway');{const p=e/a.total;$('enc').textContent=a.paused?'Take your time. Resume when you are ready.':ENC[p<.1?0:p<.3?1:p<.5?2:p<.7?3:p<.9?4:5]}}
 function tick(){const a=S.active;if(!a)return;if(!a.paused){const e=el(a);if(e>=a.total){complete();return}if(!a.half&&e>=a.total/2){a.half=1;fire('half');save()}
  if(S.ev>0){const n=Math.floor(e/(S.ev*6e4));if(n>a.ti){a.ti=n;if(a.total-e>8000)fire('begin');save()}}}render()}
 setInterval(tick,500);
@@ -244,6 +253,29 @@ function buildWeek(){const box=$('d14');box.className='seg7';box.innerHTML='';co
 let ka=null;function keepAlive(on){try{if(on){if(!ka){const sr=8000,n=sr,b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,s)=>[...s].forEach((c,i)=>v.setUint8(o+i,c.charCodeAt(0)));w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVEfmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);ka=new Audio(URL.createObjectURL(new Blob([b],{type:'audio/wav'})));ka.loop=true;ka.volume=.02}ka.play().catch(()=>{})}else if(ka)ka.pause()}catch(e){}}
 $('awake').checked=!!S.awake;$('awake').onchange=e=>{S.awake=e.target.checked;save()};
 $('useSc').checked=!!S.useSc;$('useSc').onchange=e=>{S.useSc=e.target.checked;save()};
+function buildGrid(){const box=$('d14');box.className='g28';box.innerHTML='';['M','T','W','T','F','S','S'].forEach(l=>{const h=document.createElement('div');h.className='h';h.textContent=l;box.appendChild(h)});box.appendChild(document.createElement('div'));
+ const t=new Date(),tk=dk(t),s=new Date(t);s.setDate(t.getDate()-wd(t)-21);let tot=0;
+ for(let r=0;r<4;r++){let c=0,pl=0;for(let i=0;i<7;i++){const d=new Date(s);d.setDate(s.getDate()+r*7+i);const k=dk(d),on=!!rec(k).s,fut=d>t&&k!==tk,pn=planned(d);if(pn)pl++;if(on&&!fut){c++;tot++}const b=document.createElement('button');b.className=(on?'s ':'')+(k===tk?'t ':'')+(fut?'f ':'')+(!pn?'r':'');b.textContent=d.getDate();b.setAttribute('aria-label',DN[wd(d)]+' '+d.getDate()+(on?', sat':', not sat'));if(fut)b.disabled=true;else b.onclick=()=>{const q=rec(k);if(q.s)delete q.s;else q.s=1;S.days[k]=q;save();home()};box.appendChild(b)}
+  const bar=document.createElement('div');bar.className='wb';bar.innerHTML='<span style="width:'+Math.min(100,c/Math.max(pl,1)*100)+'%"></span><em>'+c+'/'+pl+'</em>';box.appendChild(bar)}
+ $('d14c').textContent=tot+' of the last 28 days \u00b7 tap any day to mark sat or not sat'}
+const COMP=['Another day kept.','You showed up. That is everything.','Quiet work, real change.','The streak grows because you do.','This is how a life is changed: one sit at a time.'];
+const LV=[[0,'Seed'],[100,'Sprout'],[300,'Steady'],[700,'Rooted'],[1300,'Flowing'],[2200,'Radiant'],[3500,'Luminous'],[5500,'Boundless']];
+function points(){const ks=Object.keys(S.days).filter(k=>S.days[k].s).sort();let tot=0,run=0,prev=null;const wk=new Set();const MB={7:50,21:100,40:200,100:400};
+ for(const k of ks){const d=new Date(k+'T00:00:00');run=(prev&&Math.round((d-prev)/864e5)<=2)?run+1:1;prev=d;tot+=10+Math.min(run,14)+(MB[run]||0)+(S.days[k].ot?5:0);const m=new Date(d);m.setDate(d.getDate()-wd(d));wk.add(dk(m))}
+ wk.forEach(w=>{const m=new Date(w+'T00:00:00');let ok=true,any=false;for(let i=0;i<7;i++){const d=new Date(m);d.setDate(m.getDate()+i);if(planned(d)){any=true;if(!rec(dk(d)).s){ok=false;break}}}if(ok&&any)tot+=30});
+ let lvi=0;LV.forEach((l,i)=>{if(tot>=l[0])lvi=i});const nx=LV[lvi+1];return{total:tot,lvi,lv:{name:LV[lvi][1]},next:nx?nx[0]:null,base:LV[lvi][0],nname:nx?nx[1]:''}}
+function renderLvl(){const P=points(),t=rec(dk()),r=streak(),pct=P.next?Math.round((P.total-P.base)/(P.next-P.base)*100):100,gain=10+Math.min(r+(t.s?0:1),14),nm=[7,21,40,100].find(x=>x>r),B={7:50,21:100,40:200,100:400};
+ $('lvl').innerHTML='<div class="lh"><b>'+P.lv.name+'</b><span>'+P.total+' points</span></div><div class="lb"><i style="width:'+pct+'%"></i></div><div class="lt">'+(P.next?(P.next-P.total)+' points to '+P.nname:'Highest level reached')+(t.s?' \u00b7 today is done, well sat':' \u00b7 sit now for about +'+gain+' points')+(nm?'<br>'+(nm-r)+' more '+((nm-r)===1?'day':'days')+' to the '+nm+'-day bonus (+'+B[nm]+')':'')+'</div>'}
+function bestRun(){let b=0,c=0,p=null;for(const k of Object.keys(S.days).filter(k=>S.days[k].s).sort()){const d=new Date(k+'T00:00:00');c=(p&&Math.round((d-p)/864e5)<=2)?c+1:1;p=d;b=Math.max(b,c)}return b}
+function buildStats(){const box=$('d14');box.className='st3';const t=new Date(),tk=dk(t),m0=new Date(t);m0.setDate(t.getDate()-wd(t));let wk=0,pl=0;for(let i=0;i<7;i++){const d=new Date(m0);d.setDate(m0.getDate()+i);if(planned(d))pl++;if(rec(dk(d)).s)wk++}let mo=0;const p=dk(new Date(t.getFullYear(),t.getMonth(),1));for(const k of Object.keys(S.days))if(k>=p&&k<=tk&&rec(k).s)mo++;
+ box.innerHTML='<div><b>'+wk+'/'+pl+'</b><span>this week</span></div><div><b>'+mo+'</b><span>this month</span></div><div><b>'+bestRun()+'</b><span>best streak</span></div>';$('d14c').innerHTML='<button class="lk" id="editDays">Edit days</button>';$('editDays').onclick=()=>S.pin?askPin('enter',openDays):askPin('set',openDays)}
+function openDays(){const L=$('dl');L.innerHTML='';const t=new Date();for(let i=0;i<14;i++){const d=new Date(t);d.setDate(t.getDate()-i);const k=dk(d),r=document.createElement('label');r.className='dr';const sp=document.createElement('span');sp.textContent=DN[wd(d)]+', '+d.getDate()+' '+d.toLocaleString('en',{month:'short'});const cb=document.createElement('input');cb.type='checkbox';cb.checked=!!rec(k).s;cb.onchange=()=>{const q=rec(k);if(cb.checked)q.s=1;else delete q.s;S.days[k]=q;save();home()};r.append(sp,cb);L.appendChild(r)}show('mDays',1)}
+const ENC=['Settle in. Nothing to do but be here.','Each time the mind wanders, return. That is the practice.','You are in it now. Stay.','Past halfway. Most people would have stopped by now.','Nearly there. Finish with patience.','Almost done. This sit is yours.'];
+async function hashPin(p){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('still:'+p));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){let h=0;for(const c of 'still:'+p)h=(h*31+c.charCodeAt(0))|0;return 'f'+h}}
+let pinMode=null,pinCb=null;
+function askPin(mode,cb){pinMode=mode;pinCb=cb;$('pinIn').value='';$('pinE').textContent='';$('pinT').textContent=mode==='set'?'Create a PIN':'Enter PIN';$('pinP').textContent=mode==='set'?'Choose 4 digits. You will need them to edit your days.':'Needed to edit your days.';show('mPin',1);setTimeout(()=>$('pinIn').focus(),120)}
+$('pinOk').onclick=async()=>{const v=$('pinIn').value.trim();if(!/^[0-9]{4}$/.test(v)){$('pinE').textContent='Enter exactly 4 digits.';return}const h=await hashPin(v);if(pinMode==='set'){S.pin=h;save();show('mPin',0);if(pinCb)pinCb()}else if(h===S.pin){show('mPin',0);if(pinCb)pinCb()}else{$('pinE').textContent='Wrong PIN.';$('pinIn').value=''}};
+$('chgPin').onclick=()=>{const setNew=()=>askPin('set',null);S.pin?askPin('enter',setNew):setNew()};
 /* boot */
 home();
 if(S.active){if(!S.active.paused&&el(S.active)>=S.active.total)complete();else{showSit();wake()}}
